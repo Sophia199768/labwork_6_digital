@@ -1,0 +1,39 @@
+name: test
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        
+      - name: Check out calc tests
+        run: python test_calc.py
+      
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: compile to bytecode
+        run: python -m py_compile calc.py > calc.pyc
+      - name: setup compiler
+        run: pip install pyinstaller
+      - name: compile to package
+        run: pyinstaller calc.py  --noconfirm --onefile --console
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>" 
+      - name: Commit files
+        run: |
+            git add calc.pyc
+            git add dist/calc
+            git add build/calc/calc.pkg
+            git commit -a -m 'Changes pushed by GitHub Actions' || true
+            git push origin master
