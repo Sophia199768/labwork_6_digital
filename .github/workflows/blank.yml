@@ -2,7 +2,7 @@ name: test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ Deadline_1 ]
 
   workflow_dispatch:
 
