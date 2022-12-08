@@ -3,7 +3,7 @@ class calc:
     pass
 
   def sum(self, x1, x2):
-    return x1 + x2
+    return x1 + x2 + 1
 
   def multiply(self, x1, x2):
     return x1 * x2
